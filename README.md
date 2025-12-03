@@ -2,6 +2,14 @@
 
 CallScribe converts raw call audio into clean, structured Minutes of Meeting (MoM) using Speech-to-Text + LLM processing.
 
+## 🌐 Live App
+**https://callscribe.netlify.app**
+
+[![Live Demo](https://img.shields.io/badge/LIVE-DEMO-blue?style=for-the-badge)](https://callscribe.netlify.app)
+
+
+---
+
 ## Built With
 ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB&style=for-the-badge)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white&style=for-the-badge)
@@ -102,10 +110,6 @@ VITE_BACKEND_PORT_URL=****
 ## Run frontend:
 ```
 npm run dev
-```
-## App URL:
-```
-http://localhost:5173
 ```
 ---
 
