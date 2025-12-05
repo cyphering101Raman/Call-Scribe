@@ -17,6 +17,16 @@ CallScribe converts raw call audio into clean, structured Minutes of Meeting (Mo
 ![Groq Whisper](https://img.shields.io/badge/Groq%20Whisper-STT-orange?style=for-the-badge)
 ![Groq Llama 3.3](https://img.shields.io/badge/Groq%20Llama%203.3-LLM-red?style=for-the-badge)
 
+---
+
+## 📸 Screenshot
+
+### 🏠 Home Page  
+<img width="1351" height="1164" alt="Call-Scribe-HomePage" src="https://github.com/user-attachments/assets/83a74bfd-732e-4496-8118-6085cbb4ddf5" />
+
+### 📄 Transcription & Meeting Summary 
+<img width="1351" height="1992" alt="Call-Scribe-MoM" src="https://github.com/user-attachments/assets/46493bff-03b3-4f7d-970b-b3a14e7a8af7" />
+
 
 ---
 
