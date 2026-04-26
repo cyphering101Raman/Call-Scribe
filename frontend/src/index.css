@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-obsidian text-slate-50 antialiased selection:bg-brand-primary/30 selection:text-slate-50;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030014;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e1b4b;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2e1065;
+}
+
+.glass {
+  @apply backdrop-blur-xl bg-white/[0.03] border border-white/[0.08];
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-brand-gradient;
+}
