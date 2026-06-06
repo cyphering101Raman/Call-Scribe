@@ -2,34 +2,107 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Base Layer ──────────────────────────────────────────────────────────── */
 @layer base {
+  /* Smooth scrolling via CSS — replaces the JS useEffect in Home.jsx */
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
-    @apply bg-obsidian text-slate-50 antialiased selection:bg-brand-primary/30 selection:text-slate-50;
+    @apply bg-canvas-base text-ink-primary font-sans;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-accent/20 text-ink-primary;
   }
 }
 
-/* Custom Scrollbar */
+/* ─── Custom Scrollbar ────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #030014;
+  background: #09090B;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #1e1b4b;
-  border-radius: 10px;
+  background: #27272A;
+  border-radius: 999px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #2e1065;
+  background: #3F3F46;
 }
 
-.glass {
-  @apply backdrop-blur-xl bg-white/[0.03] border border-white/[0.08];
-}
+/* ─── Component Utilities ─────────────────────────────────────────────────── */
+@layer components {
+  /**
+   * .card
+   * Base card surface. Use the <Card> component — this class is the backing style.
+   */
+  .card {
+    @apply bg-canvas-card border border-line-subtle rounded-xl shadow-subtle;
+  }
 
-.text-gradient {
-  @apply bg-clip-text text-transparent bg-brand-gradient;
+  /**
+   * .card-interactive
+   * Add to .card when the element is clickable.
+   */
+  .card-interactive {
+    @apply transition-[background-color,border-color,box-shadow] duration-200 ease-out
+           hover:bg-canvas-raised hover:border-line-default hover:shadow-medium
+           cursor-pointer;
+  }
+
+  /**
+   * .card-accent
+   * Add to .card when the card is the currently selected/highlighted state.
+   */
+  .card-accent {
+    @apply border-accent/25 shadow-glow-sm;
+  }
+
+  /**
+   * .text-gradient
+   * Gradient text — permitted on exactly ONE element per page (hero headline).
+   * Use the <GradientText> component instead of applying this class directly.
+   */
+  .text-gradient {
+    @apply bg-gradient-text bg-clip-text text-transparent;
+  }
+
+  /**
+   * .eyebrow
+   * Section category label above headline.
+   * Use inside <SectionHeader eyebrow="..." /> — not directly.
+   */
+  .eyebrow {
+    @apply font-mono text-xs font-medium uppercase tracking-widest text-accent;
+  }
+
+  /**
+   * .glass-nav
+   * Restricted to Navbar only. Do not use on cards or section containers.
+   */
+  .glass-nav {
+    @apply bg-canvas-base/80 backdrop-blur-md border-b border-line-subtle;
+  }
+
+  /**
+   * .custom-scrollbar
+   * Applied to overflow scroll containers (transcript panels, etc.)
+   */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #27272A #09090B;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #27272A;
+    border-radius: 999px;
+  }
 }

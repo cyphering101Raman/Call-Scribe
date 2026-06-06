@@ -1,13 +1,5 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Navbar from './components/Navbar'
+import { Outlet } from 'react-router-dom';
 
-const App = () => {
-  return (
-    <div className="w-full">
-      <Outlet />
-    </div>
-  )
+export default function App() {
+  return <Outlet />;
 }
-
-export default App

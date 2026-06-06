@@ -1,54 +1,83 @@
-import { Link } from "react-router-dom";
-import { Twitter, Linkedin, Github, Cpu } from "lucide-react";
+import { Link } from 'react-router-dom';
+import { Mic, Twitter, Linkedin, Github } from 'lucide-react';
+
+const LINKS = [
+  {
+    title: 'Product',
+    items: [
+      { label: 'Features',     href: '#features' },
+      { label: 'How it works', href: '#how-it-works' },
+      { label: 'Roadmap',      href: '#roadmap' },
+    ],
+  },
+  {
+    title: 'Legal',
+    items: [
+      { label: 'Privacy Policy', href: '#' },
+      { label: 'Terms of Use',   href: '#' },
+    ],
+  },
+];
+
+const SOCIAL = [
+  { icon: Twitter,  href: '#', label: 'Twitter' },
+  { icon: Linkedin, href: '#', label: 'LinkedIn' },
+  { icon: Github,   href: '#', label: 'GitHub' },
+];
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
-  const links = [
-    {
-      title: "Product",
-      items: ["Features", "Use Cases", "API", "Pricing"]
-    },
-    {
-      title: "Company",
-      items: ["About", "Blog", "Careers", "Security"]
-    },
-    {
-      title: "Legal",
-      items: ["Privacy", "Terms", "Cookie Policy"]
-    }
-  ];
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="pt-24 pb-12 border-t border-white/5">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-12 mb-16">
-          <div className="col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-brand-gradient flex items-center justify-center">
-                <span className="text-white font-bold text-lg">C</span>
+    <footer className="border-t border-line-subtle pt-16 pb-10">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+
+          {/* Brand column */}
+          <div className="col-span-2 md:col-span-2 flex flex-col gap-5">
+            <Link to="/" className="flex items-center gap-2.5 w-fit group">
+              <div className="w-7 h-7 rounded-md bg-accent flex items-center justify-center transition-opacity duration-150 group-hover:opacity-85">
+                <Mic size={14} className="text-white" strokeWidth={2.5} />
               </div>
-              <span className="text-xl font-bold tracking-tight text-white">CallScribe</span>
+              <span className="text-sm font-semibold text-ink-primary tracking-tight">
+                CallScribe
+              </span>
             </Link>
-            <p className="text-slate-400 text-sm max-w-xs mb-8">
-              Turning raw audio into structured intelligence for high-performance teams.
+
+            <p className="text-sm text-ink-muted leading-relaxed max-w-[36ch]">
+              Upload or record any meeting. Get a transcript, minutes, and action items — automatically.
             </p>
-            <div className="flex items-center gap-4">
-              {[Twitter, Linkedin, Github].map((Icon, i) => (
-                <a key={i} href="#" className="h-10 w-10 glass rounded-full flex items-center justify-center text-slate-400 hover:text-white transition-colors">
-                  <Icon size={18} />
+
+            {/* Socials */}
+            <div className="flex items-center gap-2">
+              {SOCIAL.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="w-9 h-9 rounded-lg border border-line-subtle flex items-center justify-center text-ink-muted hover:text-ink-primary hover:border-line-default transition-[color,border-color] duration-150"
+                >
+                  <Icon size={16} />
                 </a>
               ))}
             </div>
           </div>
 
-          {links.map((group, i) => (
-            <div key={i}>
-              <h4 className="text-white font-bold text-sm mb-6">{group.title}</h4>
-              <ul className="space-y-4">
-                {group.items.map((item, j) => (
-                  <li key={j}>
-                    <a href="#" className="text-slate-400 text-sm hover:text-white transition-colors">{item}</a>
+          {/* Link columns */}
+          {LINKS.map((group) => (
+            <div key={group.title} className="flex flex-col gap-4">
+              <h4 className="text-xs font-semibold text-ink-secondary uppercase tracking-widest font-mono">
+                {group.title}
+              </h4>
+              <ul className="flex flex-col gap-3">
+                {group.items.map((item) => (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      className="text-sm text-ink-muted hover:text-ink-secondary transition-colors duration-150"
+                    >
+                      {item.label}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -56,14 +85,14 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 gap-4">
-          <p className="text-slate-500 text-xs text-center md:text-left">
-            © {currentYear} CallScribe Inc. All rights reserved. Built with precision for the modern web.
+        {/* Bottom bar */}
+        <div className="pt-8 border-t border-line-subtle flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-xs text-ink-muted">
+            © {year} CallScribe. All rights reserved.
           </p>
-          <div className="flex items-center gap-2 text-slate-500 text-xs">
-            <Cpu size={14} />
-            <span>Infrastructure by Vercel Edge</span>
-          </div>
+          <p className="text-xs text-ink-muted">
+            Made for teams that move fast.
+          </p>
         </div>
       </div>
     </footer>

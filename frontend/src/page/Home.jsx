@@ -1,61 +1,52 @@
-import React, { useEffect } from "react";
-import Navbar from "../components/Navbar";
-import Hero from "../components/Landing/Hero";
-import OutputPreview from "../components/Landing/OutputPreview";
-import HowItWorks from "../components/Landing/HowItWorks";
-import Features from "../components/Landing/Features";
-import CTA from "../components/Landing/CTA";
-import Footer from "../components/Landing/Footer";
-import ProductExperience from "../components/Landing/ProductExperience";
+import Navbar          from '../components/Navbar';
+import Hero            from '../components/Landing/Hero';
+import ProductShowcase from '../components/Landing/ProductShowcase';
+import HowItWorks      from '../components/Landing/HowItWorks';
+import Features        from '../components/Landing/Features';
+import FutureVision    from '../components/Landing/FutureVision';
+import CTA             from '../components/Landing/CTA';
+import Footer          from '../components/Landing/Footer';
+import { Glow }        from '../components/ui';
 
 export default function Home() {
-    // Smooth scroll behavior
-    useEffect(() => {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    }, []);
+  return (
+    <div className="bg-canvas-base min-h-screen text-ink-primary font-sans overflow-x-hidden selection:bg-accent/20 selection:text-ink-primary">
 
-    return (
-        <div className="bg-obsidian min-h-screen text-slate-50 font-sans selection:bg-brand-primary/30 selection:text-white overflow-x-hidden">
-            <Navbar />
-            
-            <main>
-                {/* Hero Section */}
-                <Hero />
-                
-                {/* Product Experience (Functional Demo) */}
-                <ProductExperience />
+      {/*
+        Page-level ambient glow — maximum 2 orbs, positioned at page edges.
+        Fixed so they don't scroll with content. accent/5% opacity only.
+      */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
+        <Glow position="top-right" size="lg" />
+        <Glow position="bottom-left" size="md" />
+      </div>
 
-                {/* Core Section: Output Preview */}
-                <OutputPreview />
+      {/* ── Navigation ── */}
+      <Navbar />
 
-                {/* How It Works */}
-                <HowItWorks />
+      {/* ── Main Content ── */}
+      <main>
+        {/* 1. Hook — what is it + product preview */}
+        <Hero />
 
-                {/* Features & Why CallScribe */}
-                <Features />
+        {/* 2. Proof — what do I get (realistic output showcase) */}
+        <ProductShowcase />
 
-                {/* Final CTA */}
-                <CTA />
-            </main>
+        {/* 3. Process — how does it work */}
+        <HowItWorks />
 
-            {/* Footer */}
-            <Footer />
-            
-            {/* Global Background Elements */}
-            <div className="fixed inset-0 pointer-events-none -z-20 overflow-hidden">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-primary/5 blur-[150px] rounded-full" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-secondary/5 blur-[150px] rounded-full" />
-            </div>
-        </div>
-    );
+        {/* 4. Depth — full feature list */}
+        <Features />
+
+        {/* 5. Direction — coming soon, visually lighter */}
+        <FutureVision />
+
+        {/* 6. Conversion — single focused CTA */}
+        <CTA />
+      </main>
+
+      {/* ── Footer ── */}
+      <Footer />
+    </div>
+  );
 }

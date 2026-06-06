@@ -1,37 +1,70 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Mic } from 'lucide-react';
+import { Button } from './ui';
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <motion.header 
-      initial={{ y: -20, opacity: 0 }}
+    <motion.header
+      initial={{ y: -10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed top-6 inset-x-0 mx-auto z-50 w-[90%] max-w-5xl"
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4"
     >
-      <nav className="glass rounded-full px-6 py-3 flex items-center shadow-2xl shadow-brand-primary/10">
-        {/* Logo Section */}
-        <div className="flex-1 flex justify-start">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-brand-gradient flex items-center justify-center shrink-0">
-              <span className="text-white font-bold text-lg">C</span>
-            </div>
-            <span className="text-xl font-bold tracking-tight text-white whitespace-nowrap">CallScribe</span>
-          </Link>
-        </div>
-        
-        {/* Features Section - Centered */}
-        <div className="hidden md:flex items-center justify-center gap-8 px-4">
-          <a href="#features" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Features</a>
-          <a href="#how-it-works" className="text-sm font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap">How it works</a>
-          <a href="#pricing" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Pricing</a>
+      <nav
+        className={[
+          'w-full max-w-5xl h-14',
+          'flex items-center justify-between',
+          'px-5 rounded-2xl border border-line-subtle',
+          'transition-[background-color,box-shadow] duration-300',
+          scrolled
+            ? 'bg-canvas-card/95 backdrop-blur-md shadow-medium'
+            : 'bg-canvas-card/70 backdrop-blur-sm shadow-subtle',
+        ].join(' ')}
+      >
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
+          <div className="w-7 h-7 rounded-md bg-accent flex items-center justify-center transition-opacity duration-150 group-hover:opacity-85">
+            <Mic size={14} className="text-white" strokeWidth={2.5} />
+          </div>
+          <span className="text-sm font-semibold text-ink-primary tracking-tight">
+            CallScribe
+          </span>
+        </Link>
+
+        {/* Nav links */}
+        <div className="hidden md:flex items-center gap-7">
+          <a
+            href="#features"
+            className="text-sm text-ink-secondary hover:text-ink-primary transition-colors duration-150"
+          >
+            Features
+          </a>
+          <a
+            href="#how-it-works"
+            className="text-sm text-ink-secondary hover:text-ink-primary transition-colors duration-150"
+          >
+            How it works
+          </a>
         </div>
 
-        {/* Auth Section */}
-        <div className="flex-1 flex items-center justify-end gap-4">
-          <button className="hidden sm:block text-sm font-medium text-slate-300 hover:text-white transition-colors">Log in</button>
-          <button className="bg-white text-obsidian px-5 py-2 rounded-full text-sm font-bold hover:bg-slate-200 transition-colors shadow-lg shadow-white/10 whitespace-nowrap">
-            Start Free
+        {/* Auth */}
+        <div className="flex items-center gap-3">
+          <button className="hidden sm:block text-sm text-ink-secondary hover:text-ink-primary transition-colors duration-150 focus:outline-none">
+            Log in
           </button>
+          <Button variant="primary" size="sm" pill>
+            Try Free
+          </Button>
         </div>
       </nav>
     </motion.header>

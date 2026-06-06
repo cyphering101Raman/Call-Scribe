@@ -1,95 +1,262 @@
-import { motion } from "framer-motion";
-import { Mic, Play, ArrowRight } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MessageSquare, FileText, ListChecks, Clock, CheckSquare } from 'lucide-react';
+import { Button, GradientText } from '../ui';
+import Container from '../ui/Container';
 
-export default function Hero() {
+// ─── Mock Data — Q4 Launch Review ────────────────────────────────────────────
+const TRANSCRIPT = [
+  { speaker: 'Alex',  time: '00:00', text: "Let's review the Q4 product launch timeline and confirm our release date." },
+  { speaker: 'Sarah', time: '00:08', text: "Backend API integration is complete. All endpoints are tested and stable." },
+  { speaker: 'James', time: '00:17', text: "Design assets are finalized. I'll hand them off to engineering by end of day." },
+  { speaker: 'Alex',  time: '00:24', text: "Great. Sarah, can you coordinate the final QA pass before Thursday?" },
+  { speaker: 'Sarah', time: '00:29', text: "Yes, I'll have the full test report ready by Wednesday evening." },
+];
+
+const MINUTES = [
+  { label: 'Meeting',    value: 'Q4 Product Launch Review' },
+  { label: 'Attendees',  value: 'Alex, Sarah, James' },
+  { label: 'Discussion', value: 'The team reviewed the Q4 launch timeline. Backend API integration is confirmed complete with all endpoints tested and stable. Design assets are finalised and ready for engineering handoff today. A final QA pass is scheduled before the November 15th release.' },
+  { label: 'Decision',   value: 'November 15th launch date confirmed. Proceed.' },
+];
+
+const ACTIONS = [
+  { owner: 'Sarah', task: 'Coordinate final QA pass',              due: 'Thursday' },
+  { owner: 'James', task: 'Hand off design assets to engineering', due: 'Today' },
+  { owner: 'Sarah', task: 'Deliver QA test report',                due: 'Wednesday' },
+  { owner: 'Alex',  task: 'Confirm launch date with stakeholders', due: 'Tomorrow' },
+];
+
+const SPEAKER_COLOR = {
+  Alex:  { ring: 'ring-blue-400/40',    text: 'text-blue-400',    bg: 'bg-blue-400/10' },
+  Sarah: { ring: 'ring-violet-400/40',  text: 'text-violet-400',  bg: 'bg-violet-400/10' },
+  James: { ring: 'ring-emerald-400/40', text: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+};
+
+const TABS = [
+  { id: 'transcript', label: 'Transcript', icon: MessageSquare },
+  { id: 'minutes',    label: 'Minutes',    icon: FileText },
+  { id: 'actions',    label: 'Actions',    icon: ListChecks },
+];
+
+// ─── Tab Content Components ───────────────────────────────────────────────────
+function TranscriptPanel() {
   return (
-    <section className="relative pt-32 pb-20 overflow-hidden">
-      {/* Background Glows */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-brand-primary/20 blur-[120px] -z-10 rounded-full" />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-brand-secondary/10 blur-[100px] -z-10 rounded-full" />
-
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-sm font-medium text-brand-accent flex items-center gap-2"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
-            </span>
-            New: Enhanced AI Action Items
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight"
-          >
-            Turn Voice into <span className="text-gradient">Structured Intelligence</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl"
-          >
-            CallScribe automates your meeting workflow. Record audio, get instant accurate transcriptions, 
-            and let AI generate summaries and action items while you stay focused on the conversation.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center gap-4"
-          >
-            <button className="w-full sm:w-auto bg-brand-gradient text-white px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-lg shadow-brand-primary/25">
-              <Mic size={20} />
-              Start Recording
-            </button>
-            <button className="w-full sm:w-auto glass hover:bg-white/10 px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all">
-              <Play size={20} fill="white" className="text-white" />
-              Watch Demo
-            </button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-20 w-full relative group"
-          >
-            <div className="absolute inset-0 bg-brand-primary/20 blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="glass rounded-[32px] p-2 md:p-4 shadow-2xl relative overflow-hidden border-white/20">
-               {/* Pre-recorded/Mock visual flow */}
-               <div className="aspect-video bg-obsidian/50 rounded-[22px] border border-white/5 flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070')] bg-cover opacity-20 filter grayscale" />
-                  <div className="z-10 text-center p-8">
-                     <div className="flex justify-center gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-full bg-brand-primary/20 flex items-center justify-center animate-pulse">
-                           <Mic className="text-brand-primary" />
-                        </div>
-                        <ArrowRight className="text-slate-600 self-center" />
-                        <div className="w-12 h-12 rounded-full bg-brand-secondary/20 flex items-center justify-center animate-pulse delay-75">
-                           <Play className="text-brand-secondary" />
-                        </div>
-                        <ArrowRight className="text-slate-600 self-center" />
-                        <div className="w-12 h-12 rounded-full bg-brand-accent/20 flex items-center justify-center animate-pulse delay-150">
-                           <ArrowRight className="text-brand-accent" />
-                        </div>
-                     </div>
-                     <p className="text-slate-400 font-mono text-sm">Processing stream_id: CS_8842...</p>
-                  </div>
-               </div>
+    <motion.div
+      key="transcript"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="space-y-4"
+    >
+      {TRANSCRIPT.map((item, i) => {
+        const color = SPEAKER_COLOR[item.speaker] ?? { text: 'text-ink-muted', bg: 'bg-canvas-raised' };
+        return (
+          <div key={i} className="flex gap-3">
+            <div className={`w-6 h-6 rounded-full ${color.bg} flex items-center justify-center shrink-0 mt-0.5 ring-1 ${color.ring}`}>
+              <span className={`text-[10px] font-bold font-mono ${color.text}`}>
+                {item.speaker[0]}
+              </span>
             </div>
-          </motion.div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className={`text-xs font-semibold ${color.text}`}>{item.speaker}</span>
+                <span className="text-[10px] text-ink-muted font-mono flex items-center gap-0.5">
+                  <Clock size={8} /> {item.time}
+                </span>
+              </div>
+              <p className="text-xs text-ink-secondary leading-relaxed">{item.text}</p>
+            </div>
+          </div>
+        );
+      })}
+    </motion.div>
+  );
+}
+
+function MinutesPanel() {
+  return (
+    <motion.div
+      key="minutes"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="space-y-3"
+    >
+      {MINUTES.map((item, i) => (
+        <div key={i}>
+          <span className="text-[10px] font-mono font-medium uppercase tracking-widest text-ink-muted block mb-0.5">
+            {item.label}
+          </span>
+          <p className="text-xs text-ink-secondary leading-relaxed">{item.value}</p>
+        </div>
+      ))}
+    </motion.div>
+  );
+}
+
+function ActionsPanel() {
+  return (
+    <motion.div
+      key="actions"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="space-y-2"
+    >
+      {ACTIONS.map((item, i) => (
+        <div key={i} className="flex items-start gap-2.5 p-2.5 rounded-lg bg-canvas-raised border border-line-subtle">
+          <CheckSquare size={13} className="text-ink-muted shrink-0 mt-0.5" />
+          <div className="min-w-0 flex-1">
+            <p className="text-xs text-ink-secondary leading-snug">{item.task}</p>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-[10px] text-ink-muted font-mono">{item.owner}</span>
+              <span className="text-[10px] text-ink-muted">·</span>
+              <span className="text-[10px] text-ink-muted">Due {item.due}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </motion.div>
+  );
+}
+
+// ─── Product Preview Panel ────────────────────────────────────────────────────
+function ProductPreview() {
+  const [activeTab, setActiveTab] = useState('transcript');
+
+  // Auto-cycle through tabs every 3.5 s
+  useEffect(() => {
+    const ids = TABS.map((t) => t.id);
+    const interval = setInterval(() => {
+      setActiveTab((current) => ids[(ids.indexOf(current) + 1) % ids.length]);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="bg-canvas-card border border-line-subtle rounded-2xl overflow-hidden shadow-medium">
+      {/* Window chrome */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-line-subtle">
+        <div className="flex items-center gap-3">
+          <div className="flex gap-1.5" aria-hidden="true">
+            <span className="w-2.5 h-2.5 rounded-full bg-canvas-raised block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-canvas-raised block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-canvas-raised block" />
+          </div>
+          <span className="text-[11px] text-ink-muted font-mono">
+            Q4_Launch_Review.mp3 · 28 min
+          </span>
+        </div>
+        {/* Status badge */}
+        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-success/10 border border-success/20">
+          <span className="w-1.5 h-1.5 rounded-full bg-success block" />
+          <span className="text-[10px] font-medium font-mono text-success uppercase tracking-wide">
+            Complete
+          </span>
         </div>
       </div>
+
+      {/* Tab bar */}
+      <div className="flex items-center gap-1 px-4 pt-2 border-b border-line-subtle">
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={[
+                'flex items-center gap-1.5 px-3 py-2 text-[11px] font-medium',
+                'border-b-2 -mb-px transition-[color,border-color] duration-150',
+                isActive
+                  ? 'text-ink-primary border-accent'
+                  : 'text-ink-muted border-transparent hover:text-ink-secondary hover:border-line-default',
+              ].join(' ')}
+            >
+              <tab.icon size={11} />
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Content area */}
+      <div className="h-64 overflow-y-auto p-4 custom-scrollbar">
+        <AnimatePresence mode="wait">
+          {activeTab === 'transcript' && <TranscriptPanel />}
+          {activeTab === 'minutes'    && <MinutesPanel />}
+          {activeTab === 'actions'    && <ActionsPanel />}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+// ─── Hero Section ─────────────────────────────────────────────────────────────
+export default function Hero() {
+  return (
+    <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28">
+      <Container>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+          {/* ── Text Column ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="flex flex-col gap-6"
+          >
+            {/* Headline */}
+            <div className="flex flex-col gap-3">
+              <h1 className="text-4xl md:text-5xl lg:text-[52px] font-bold tracking-hero-lg leading-hero text-ink-primary">
+                Your meetings,{' '}
+                <GradientText>fully documented.</GradientText>
+              </h1>
+              <p className="text-lg text-ink-secondary leading-body max-w-[48ch]">
+                Upload or record any meeting. CallScribe produces an accurate
+                transcript, AI-written minutes, and a list of action items —
+                automatically.
+              </p>
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button
+                variant="primary"
+                size="lg"
+              >
+                Get Started Free
+              </Button>
+              <Button
+                variant="secondary"
+                size="lg"
+                as="a"
+                href="#how-it-works"
+              >
+                See how it works
+              </Button>
+            </div>
+
+            {/* Trust line — factual, no fake numbers */}
+            <p className="text-sm text-ink-muted">
+              No credit card required · Your audio stays private
+            </p>
+          </motion.div>
+
+          {/* ── Preview Column ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.15, ease: 'easeOut' }}
+          >
+            <ProductPreview />
+          </motion.div>
+
+        </div>
+      </Container>
     </section>
   );
 }
