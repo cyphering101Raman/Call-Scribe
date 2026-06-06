@@ -1,4 +1,4 @@
-import {Router} from "express";
+import { Router } from "express";
 import multer from "multer";
 import axios from "axios";
 import FormData from "form-data";
@@ -17,11 +17,12 @@ router.post("/", upload.single("audio"), async (req, res) => {
 
         const audioBuffer = req.file.buffer;     // Your audioBlob as Buffer
         const mimeType = req.file.mimetype;      // audio/webm or audio/mp4
+        const originalName = req.file.originalname || "audio.webm";
 
         // STT request
         const formData = new FormData();
         formData.append("file", audioBuffer, {
-            filename: "audio.webm",
+            filename: originalName,
             contentType: mimeType,
         });
         formData.append("model", "whisper-large-v3");
