@@ -59,10 +59,10 @@ export default function Navbar() {
 
         {/* Auth */}
         <div className="flex items-center gap-3">
-          <button className="hidden sm:block text-sm text-ink-secondary hover:text-ink-primary transition-colors duration-150 focus:outline-none">
+          <Link to="/app" className="hidden sm:block text-sm text-ink-secondary hover:text-ink-primary transition-colors duration-150 focus:outline-none">
             Log in
-          </button>
-          <Button variant="primary" size="sm" pill>
+          </Link>
+          <Button variant="primary" size="sm" pill href="/app" as={Link} to="/app">
             Try Free
           </Button>
         </div>

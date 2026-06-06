@@ -19,6 +19,7 @@ export default function CTA() {
           subheadline="Upload any recording and get a transcript, structured minutes, and action items in under a minute."
           primaryCTA={{
             label: 'Get Started Free',
+            href: '/app',
           }}
           secondaryCTA={{
             label: 'See how it works',

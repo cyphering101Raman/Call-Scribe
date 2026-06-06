@@ -227,6 +227,7 @@ export default function Hero() {
               <Button
                 variant="primary"
                 size="lg"
+                href="/app"
               >
                 Get Started Free
               </Button>
